@@ -1,0 +1,44 @@
+{
+  "name": "biometricpass",
+  "version": "1.0.0",
+  "description": "A biometric-first password manager",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "playwright test",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder -mwl"
+  },
+  "author": "BiometricPass",
+  "license": "ISC",
+  "build": {
+    "appId": "com.biometricpass.app",
+    "productName": "BiometricPass",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": ["dmg", "zip"],
+      "icon": "icon.png"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "icon.png"
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Utility",
+      "icon": "icon.png"
+    }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "electron": "^44.5.1",
+    "electron-builder": "^25.1.8",
+    "jest": "^30.5.2",
+    "playwright": "^1.63.0"
+  },
+  "dependencies": {
+    "jimp": "^1.6.1"
+  }
+}

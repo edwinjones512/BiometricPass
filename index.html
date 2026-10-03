@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiometricPass</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="icon.png" alt="Logo" class="brand-icon">
+        <span class="brand-name">BiometricPass</span>
+      </div>
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active" id="nav-vault">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg>
+          Vault
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21l3-3m3-3l6-6M9 21H3v-6l12-12m-6 6l6-6"/></svg>
+          Generate Password
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6M3 12a9 9 0 0115-6.7L21 8M3 22v-6h6M21 12a9 9 0 01-15 6.7L3 16"/></svg>
+          Backup/Sync
+        </a>
+        <a href="#" class="nav-item" id="nav-lock">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Lock App
+        </a>
+        <div style="margin-top: auto; padding-bottom: 0.5rem; text-align: center; font-size: 0.75rem; color: var(--text-secondary);">
+          Sponsored by <br/> <a href="https://nexuscompute.net" target="_blank" style="color: var(--text-secondary); text-decoration: none; border-bottom: 1px dotted var(--text-secondary);">nexuscompute.net</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Lock Screen View -->
+      <div id="lock-screen" class="view">
+        <div class="lock-center">
+          <div class="fingerprint-glow" id="btn-unlock">
+            <img src="icon.png" alt="Fingerprint" class="fingerprint-img">
+          </div>
+          <h2>Scan Fingerprint to Unlock</h2>
+        </div>
+        
+        <div class="lock-status">
+          <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span id="unlock-status">Click fingerprint to verify...</span>
+        </div>
+      </div>
+
+      <!-- Vault Screen View -->
+      <div id="vault-screen" class="view hidden">
+        <header class="header">
+          <h2>Your Vault</h2>
+          <button id="btn-add" class="primary-btn">Add Credential</button>
+        </header>
+
+        <div class="vault-content">
+          <ul id="credential-list" class="list"></ul>
+        </div>
+
+        <!-- Add Modal -->
+        <div id="add-modal" class="modal hidden">
+          <div class="modal-content">
+            <h3>New Credential</h3>
+            <input type="text" id="input-title" placeholder="Title (e.g. GitHub)" class="input-field" />
+            <input type="text" id="input-username" placeholder="Username / Email" class="input-field" />
+            <input type="password" id="input-password" placeholder="Password" class="input-field" />
+            <div class="modal-actions">
+              <button id="btn-cancel" class="secondary-btn">Cancel</button>
+              <button id="btn-save" class="primary-btn">Save</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="remove-modal" class="modal hidden">
+          <div class="modal-content">
+            <h3>Remove Credential?</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.4;" id="remove-modal-text"></p>
+            <div class="modal-actions">
+              <button id="btn-remove-cancel" class="secondary-btn">Cancel</button>
+              <button id="btn-remove-confirm" class="primary-btn">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Password Screen View -->
+      <div id="generate-screen" class="view hidden">
+        <header class="header">
+          <h2>Generate Password</h2>
+        </header>
+
+        <div class="generate-content" style="max-width: 400px; margin-top: 2rem;">
+          <div style="background-color: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 1rem;">
+            <div style="font-size: 1.5rem; font-family: monospace; letter-spacing: 2px; text-align: center; margin-bottom: 1rem; user-select: all;" id="generated-password-display">Click generate</div>
+            
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <label for="pwd-length">Length: <span id="pwd-length-label">16</span></label>
+              <input type="range" id="pwd-length" min="8" max="64" value="16" style="width: 200px;">
+            </div>
+            
+            <button id="btn-generate-new" class="primary-btn" style="width: 100%; margin-top: 1rem;">Generate New</button>
+            <button id="btn-copy-generated" class="secondary-btn" style="width: 100%;">Copy to Clipboard</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Settings Screen View -->
+      <div id="settings-screen" class="view hidden">
+        <header class="header">
+          <h2>Settings</h2>
+        </header>
+
+        <div class="settings-content" style="max-width: 600px; margin-top: 2rem;">
+          <div style="background-color: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div>
+              <h3 style="margin-top: 0; font-weight: 500;">Security Options</h3>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
+                <label for="auto-lock-select">Auto-Lock Timer</label>
+                <select id="auto-lock-select" class="input-field" style="width: 150px;">
+                  <option value="1">1 Minute</option>
+                  <option value="5">5 Minutes</option>
+                  <option value="15">15 Minutes</option>
+                  <option value="60">1 Hour</option>
+                  <option value="0">Never</option>
+                </select>
+              </div>
+            </div>
+            
+            <hr style="border-color: var(--border-color); width: 100%; border-width: 1px 0 0 0;" />
+            
+            <div>
+              <h3 style="margin-top: 0; font-weight: 500;">Data Storage Locations</h3>
+              
+              <div style="margin-top: 1rem;">
+                <label style="color: var(--text-secondary); font-size: 0.85rem;">Encrypted Vault File (.enc)</label>
+                <div style="background-color: var(--input-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 0.25rem; font-family: monospace; font-size: 0.85rem; word-break: break-all;" id="path-db">Loading...</div>
+              </div>
+              
+              <div style="margin-top: 1rem;">
+                <label style="color: var(--text-secondary); font-size: 0.85rem;">Hardware Keystore (DPAPI)</label>
+                <div style="background-color: var(--input-bg); padding: 0.75rem; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 0.25rem; font-family: monospace; font-size: 0.85rem; word-break: break-all;" id="path-key">Loading...</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Backup/Sync Screen View -->
+      <div id="sync-screen" class="view hidden">
+        <header class="header">
+          <h2>Backup & Sync</h2>
+        </header>
+
+        <div class="sync-content" style="max-width: 600px; margin-top: 2rem;">
+          <div style="background-color: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div>
+              <h3 style="margin-top: 0; font-weight: 500;">Device Link Key</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4; margin-bottom: 1rem;">
+                Your vault is locked to this physical device's hardware. To open your vault on a new device, you must export this Device Link Key.
+              </p>
+              
+              <div style="display: flex; gap: 0.5rem; align-items: stretch;">
+                <input type="password" id="export-key-display" class="input-field" style="flex: 1; font-family: monospace;" readonly value="Click 'Reveal' to show key" />
+                <button id="btn-reveal-key" class="secondary-btn">Reveal</button>
+                <button id="btn-copy-key" class="primary-btn">Copy</button>
+              </div>
+            </div>
+
+            <hr style="border-color: var(--border-color); width: 100%; border-width: 1px 0 0 0;" />
+            
+            <div>
+              <h3 style="margin-top: 0; font-weight: 500;">Link New Device</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4; margin-bottom: 1rem;">
+                Paste a Device Link Key from another device. You will then be prompted to select the exported vault file to load.
+              </p>
+              
+              <div style="display: flex; gap: 0.5rem; align-items: stretch;">
+                <input type="text" id="import-key-input" class="input-field" style="flex: 1; font-family: monospace;" placeholder="Paste Device Link Key here..." />
+                <button id="btn-import-key" class="primary-btn">Import & Link</button>
+              </div>
+              <div id="import-status" style="margin-top: 0.75rem; font-size: 0.85rem; color: #4caf50;"></div>
+            </div>
+
+            <hr style="border-color: var(--border-color); width: 100%; border-width: 1px 0 0 0;" />
+            
+            <div>
+              <h3 style="margin-top: 0; font-weight: 500;">Export Vault Database</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4; margin-bottom: 1rem;">
+                Export a copy of your securely encrypted `biometricpass.enc` file. You can email this file or save it to a USB drive to sync it to another machine.
+              </p>
+              <button id="btn-export-vault" class="secondary-btn">Export Vault File...</button>
+              <span id="export-vault-status" style="margin-left: 1rem; font-size: 0.85rem; color: #4caf50;"></span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
