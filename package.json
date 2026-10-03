@@ -18,15 +18,23 @@
     "productName": "BiometricPass",
     "mac": {
       "category": "public.app-category.productivity",
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "icon": "icon.png"
     },
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "icon.png"
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "category": "Utility",
       "icon": "icon.png"
     }
@@ -37,8 +45,5 @@
     "electron-builder": "^25.1.8",
     "jest": "^30.5.2",
     "playwright": "^1.63.0"
-  },
-  "dependencies": {
-    "jimp": "^1.6.1"
   }
 }
